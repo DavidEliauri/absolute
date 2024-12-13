@@ -1,10 +1,10 @@
 <script setup lang="ts">
-    import { BaseModal, BaseInput } from '@/shared/ui/';
+    import { BaseModal, BaseMaskedInput } from '@/shared/ui/';
     import { ref } from 'vue';
 
     const showModal = ref(false);
 
-    const inputVar = ref('');
+    const inputVar = ref('231');
 </script>
 
 <template>
@@ -19,9 +19,14 @@
                 <template #title> Заполните заявку, чтобы стать резидентом </template>
 
                 <template #default>
-                    <BaseInput
+                    <BaseMaskedInput
                         v-model="inputVar"
-                        label="Наименование организации / ИП"
+                        :mask="{
+                            mask: '+{7} (000) 000-00-00',
+                        }"
+                        :input-props="{
+                            label: 'Наименование организации / ИП',
+                        }"
                     />
                 </template>
             </BaseModal>

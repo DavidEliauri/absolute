@@ -1,17 +1,16 @@
 <script setup lang="ts">
-    import { computed } from 'vue';
+    import { computed, useTemplateRef } from 'vue';
 
-    const props = withDefaults(
-        defineProps<{
-            modelValue: string;
-            name?: string;
-            type?: string;
-            label?: string;
-        }>(),
-        {
-            type: 'text',
-        },
-    );
+    export interface Props {
+        modelValue: string;
+        name?: string;
+        type?: string;
+        label?: string;
+    }
+
+    const props = withDefaults(defineProps<Props>(), {
+        type: 'text',
+    });
 
     const emit = defineEmits<{
         'update:modelValue': [value: string];
@@ -26,6 +25,12 @@
             emit('update:modelValue', newValue);
         },
     });
+
+    const inputNode = useTemplateRef('inputNode');
+
+    defineExpose({
+        inputNode,
+    });
 </script>
 
 <template>
@@ -36,6 +41,7 @@
         class="input-block"
     >
         <input
+            ref="inputNode"
             v-model="value"
             :name="props.name"
             :type="props.type"
