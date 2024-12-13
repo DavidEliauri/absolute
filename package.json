@@ -13,6 +13,7 @@
         "format": "prettier --write src/"
     },
     "dependencies": {
+        "reset-css": "^5.0.2",
         "vue": "^3.5.13"
     },
     "devDependencies": {
@@ -26,6 +27,7 @@
         "eslint-plugin-vue": "^9.30.0",
         "npm-run-all2": "^7.0.1",
         "prettier": "^3.3.3",
+        "sass": "^1.82.0",
         "typescript": "~5.6.3",
         "vite": "^6.0.1",
         "vite-plugin-vue-devtools": "^7.6.5",

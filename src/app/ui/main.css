@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import '@@/node_modules/reset-css/reset.css';
+
+:root {
+    --accent: #174b7c;
+    --border: #f7f8f8;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    min-width: 375px;
+}
