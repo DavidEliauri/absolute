@@ -39,6 +39,7 @@
 
         maskClass.on('accept', () => {
             value.value = maskClass.unmaskedValue;
+            childModelValue.value = maskClass.value;
         });
     });
 
