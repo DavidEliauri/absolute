@@ -65,6 +65,11 @@
             font-weight: 500;
             font-size: 18px;
             padding: 28px 20px 0;
+            outline: none;
+
+            &:focus {
+                border-color: var(--accent);
+            }
         }
 
         &__label {
