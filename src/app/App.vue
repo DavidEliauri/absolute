@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { BaseModal, BaseMaskedInput } from '@/shared/ui/';
+    import { BaseModal, MaskedInput } from '@/shared/ui/';
     import { ref } from 'vue';
 
     const showModal = ref(false);
@@ -19,7 +19,7 @@
                 <template #title> Заполните заявку, чтобы стать резидентом </template>
 
                 <template #default>
-                    <BaseMaskedInput
+                    <MaskedInput
                         v-model="inputVar"
                         :mask="{
                             mask: '+{7} (000) 000-00-00',
