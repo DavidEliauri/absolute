@@ -45,6 +45,8 @@
             background-color: white;
             max-width: 800px;
             padding: 20px;
+            max-height: 100%;
+            overflow: auto;
 
             @media (min-width: 768px) {
                 padding: 40px;
