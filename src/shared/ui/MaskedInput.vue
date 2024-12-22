@@ -1,8 +1,7 @@
 <script setup lang="ts">
     import { computed, onMounted, ref, useTemplateRef, watch } from 'vue';
     import IMask, { type InputMask, type FactoryOpts } from 'imask';
-    import { BaseInput } from '@/shared/ui/';
-    import { type Props as BaseInputProps } from '@/shared/ui/base/BaseInput.vue';
+    import { BaseInput, type BaseInputProps } from '@/shared/ui/';
 
     interface Props {
         modelValue: string;

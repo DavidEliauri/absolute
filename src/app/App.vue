@@ -1,10 +1,11 @@
 <script setup lang="ts">
-    import { BaseModal, MaskedInput } from '@/shared/ui/';
+    import { BaseModal, MaskedInput, BaseSelect } from '@/shared/ui/';
     import { ref } from 'vue';
 
     const showModal = ref(false);
 
     const inputVar = ref('231');
+    const selectVar = ref('');
 </script>
 
 <template>
@@ -27,6 +28,26 @@
                         :input-props="{
                             label: 'Наименование организации / ИП',
                         }"
+                    />
+
+                    <BaseSelect
+                        v-model="selectVar"
+                        :options="[
+                            {
+                                id: '1',
+                                text: 'Опция 1',
+                            },
+                            {
+                                id: '2',
+                                text: 'Опция 2',
+                            },
+                            {
+                                id: '3',
+                                text: 'Опция 3',
+                            },
+                        ]"
+                        :multiple="false"
+                        :label="'Наименование организации / ИП'"
                     />
                 </template>
             </BaseModal>
