@@ -45,12 +45,21 @@
             background-color: white;
             max-width: 800px;
             padding: 20px;
+
+            @media (min-width: 768px) {
+                padding: 40px;
+            }
         }
 
         &__title {
             font-weight: 600;
             font-size: 18px;
             margin-bottom: 20px;
+
+            @media (min-width: 768px) {
+                font-size: 24px;
+                margin-bottom: 40px;
+            }
         }
     }
 </style>

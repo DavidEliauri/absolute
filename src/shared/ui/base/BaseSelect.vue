@@ -85,6 +85,7 @@
         </label>
 
         <button
+            type="button"
             @click="showOptions = !showOptions"
             class="select-block__select"
         >
@@ -112,6 +113,7 @@
                     class="options__item"
                 >
                     <button
+                        type="button"
                         @click="onOptionClick(option.id)"
                         class="options__button"
                     >
@@ -157,6 +159,9 @@
             padding: 28px 20px 0;
             outline: none;
             background-color: white;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
 
             &:focus {
                 border-color: var(--accent);
@@ -169,6 +174,7 @@
 
         &__options {
             position: absolute;
+            z-index: 5;
             top: 100%;
             left: 0;
             margin-top: 8px;
@@ -195,7 +201,7 @@
         padding: 8px;
 
         &__item {
-            margin-top: 4px;
+            margin-top: 8px;
 
             &:first-child {
                 margin-top: 0;
@@ -209,8 +215,7 @@
             width: 100%;
             text-align: left;
             font-family: 'Montserrat', sans-serif;
-            font-weight: 500;
-            font-size: 16px;
+            font-size: 14px;
             color: var(--accent);
             cursor: pointer;
         }

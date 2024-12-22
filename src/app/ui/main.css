@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 @import '@@/node_modules/reset-css/reset.css';
+@import '@@/node_modules/air-datepicker/air-datepicker.css';
 
 :root {
     --accent: #174b7c;

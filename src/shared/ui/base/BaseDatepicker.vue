@@ -1,20 +1,20 @@
 <script setup lang="ts">
-    import { computed, useTemplateRef } from 'vue';
+    import { computed, onMounted, toRef, useTemplateRef, watch } from 'vue';
+    import AirDatepicker from 'air-datepicker';
 
-    export interface Props {
-        modelValue: string;
+    interface Props {
+        modelValue: Date | null;
         name?: string;
-        type?: string;
-        label?: string;
         beforeText?: string;
+        minDate?: Date;
     }
 
-    const props = withDefaults(defineProps<Props>(), {
-        type: 'text',
-    });
+    const props = defineProps<Props>();
+
+    const minDate = toRef(props, 'minDate');
 
     const emit = defineEmits<{
-        'update:modelValue': [value: string];
+        'update:modelValue': [value: Date | null];
     }>();
 
     const value = computed({
@@ -29,15 +29,36 @@
 
     const inputNode = useTemplateRef('inputNode');
 
-    defineExpose({
-        inputNode,
+    let datepicker: AirDatepicker;
+
+    onMounted(() => {
+        datepicker = new AirDatepicker(inputNode.value!, {
+            isMobile: true,
+            autoClose: true,
+            minDate: minDate.value ?? new Date(),
+            onSelect: ({ date }) => {
+                if (Array.isArray(date)) {
+                    value.value = date[0];
+
+                    return;
+                }
+
+                value.value = date;
+            },
+            selectedDates: value.value ? [value.value] : undefined,
+        });
+    });
+
+    watch(minDate, () => {
+        datepicker.update({
+            minDate: minDate.value,
+        });
     });
 </script>
 
 <template>
     <div
         :class="{
-            'input-block_active': value,
             'input-block_with-before-text': !!props.beforeText,
         }"
         class="input-block"
@@ -51,18 +72,10 @@
 
         <input
             ref="inputNode"
-            v-model="value"
             :name="props.name"
-            :type="props.type"
+            autocomplete="off"
             class="input-block__input"
         />
-
-        <label
-            v-if="props.label"
-            class="input-block__label"
-        >
-            {{ props.label }}
-        </label>
     </div>
 </template>
 
@@ -103,28 +116,6 @@
             &:focus {
                 border-color: var(--accent);
             }
-        }
-
-        &__label {
-            position: absolute;
-            left: 0;
-            top: calc(50% - 7.5px);
-            width: 100%;
-            padding: 0 20px;
-            line-height: 15px;
-            font-size: 14px;
-            font-weight: 300;
-            color: var(--accent);
-            pointer-events: none;
-            transition: top 0.2s ease;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        &__input:focus + &__label,
-        &_active &__label {
-            top: 10px;
         }
     }
 </style>
