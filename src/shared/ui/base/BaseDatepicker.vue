@@ -7,6 +7,7 @@
         name?: string;
         beforeText?: string;
         minDate?: Date;
+        error?: string;
     }
 
     const props = defineProps<Props>();
@@ -63,31 +64,50 @@
         }"
         class="input-block"
     >
-        <div
-            v-if="props.beforeText"
-            class="input-block__before-text"
-        >
-            {{ props.beforeText }}
+        <div class="input-block__wrapper">
+            <div
+                v-if="props.beforeText"
+                class="input-block__before-text"
+            >
+                {{ props.beforeText }}
+            </div>
+
+            <input
+                ref="inputNode"
+                :name="props.name"
+                autocomplete="off"
+                class="input-block__input"
+            />
         </div>
 
-        <input
-            ref="inputNode"
-            :name="props.name"
-            autocomplete="off"
-            class="input-block__input"
-        />
+        <div
+            v-if="props.error"
+            class="input-block__error"
+        >
+            {{ props.error }}
+        </div>
     </div>
 </template>
 
 <style lang="scss" scoped>
     .input-block {
-        position: relative;
+        &__wrapper {
+            position: relative;
+        }
 
         &_with-before-text {
             .input-block__input {
                 padding-top: 0;
                 text-align: right;
             }
+        }
+
+        &__error {
+            color: lightcoral;
+            line-height: 15px;
+            font-size: 14px;
+            font-weight: 300;
+            margin-top: 4px;
         }
 
         &__before-text {

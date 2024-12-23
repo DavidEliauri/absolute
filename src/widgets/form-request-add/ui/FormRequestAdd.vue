@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { reactive } from 'vue';
+    import { reactive, ref } from 'vue';
     import { BaseInput, MaskedInput, BaseSelect, BaseDatepicker, BaseButton } from '@/shared/ui';
 
     interface FormField {
@@ -55,13 +55,92 @@
             error: '',
         },
     });
+
+    const submitStatus = ref<'idle' | 'pending' | 'success' | 'error'>('idle');
+
+    function onSubmit() {
+        form.name.error = '';
+        form.phone.error = '';
+        form.room.error = '';
+        form.address.error = '';
+        form.squareFrom.error = '';
+        form.squareTo.error = '';
+        form.dateFrom.error = '';
+        form.dateTo.error = '';
+
+        let hasError = false;
+
+        if (form.name.value === '') {
+            form.name.error = 'Поле обязательно для заполнения';
+
+            hasError = true;
+        }
+
+        if (form.phone.value === '') {
+            form.phone.error = 'Поле обязательно для заполнения';
+
+            hasError = true;
+        }
+
+        if (form.room.value === '') {
+            form.room.error = 'Поле обязательно для заполнения';
+
+            hasError = true;
+        }
+
+        if (form.address.value === '') {
+            form.address.error = 'Поле обязательно для заполнения';
+
+            hasError = true;
+        }
+
+        if (form.squareFrom.value === '') {
+            form.squareFrom.error = 'Поле обязательно для заполнения';
+
+            hasError = true;
+        }
+
+        if (form.squareTo.value === '') {
+            form.squareTo.error = 'Поле обязательно для заполнения';
+
+            hasError = true;
+        }
+
+        if (form.dateFrom.value === null) {
+            form.dateFrom.error = 'Поле обязательно для заполнения';
+
+            hasError = true;
+        }
+
+        if (form.dateTo.value === null) {
+            form.dateTo.error = 'Поле обязательно для заполнения';
+
+            hasError = true;
+        }
+
+        if (hasError) {
+            submitStatus.value = 'error';
+
+            return;
+        }
+
+        submitStatus.value = 'pending';
+
+        // Async request
+
+        submitStatus.value = 'success';
+    }
 </script>
 
 <template>
-    <form class="form">
+    <form
+        @submit.prevent="onSubmit"
+        class="form"
+    >
         <div class="form__grid">
             <BaseInput
                 v-model="form.name.value"
+                :error="form.name.error"
                 name="orgName"
                 label="Наименование организации / ИП"
             />
@@ -72,6 +151,7 @@
                     mask: '+{7} (000) 000-00-00',
                 }"
                 :input-props="{
+                    error: form.phone.error,
                     label: 'Контактный телефон',
                 }"
             />
@@ -88,11 +168,13 @@
                         text: 'Другая площадь',
                     },
                 ]"
+                :error="form.room.error"
                 label="Тип помещения"
             />
 
             <BaseInput
                 v-model="form.address.value"
+                :error="form.address.error"
                 name="address"
                 label="Адрес"
             />
@@ -103,12 +185,14 @@
                 <div class="form__line-elements">
                     <BaseInput
                         v-model="form.squareFrom.value"
+                        :error="form.squareFrom.error"
                         name="squareFrom"
                         beforeText="от"
                     />
 
                     <BaseInput
                         v-model="form.squareTo.value"
+                        :error="form.squareTo.error"
                         name="squareTo"
                         beforeText="до"
                     />
@@ -121,6 +205,7 @@
                 <div class="form__line-elements">
                     <BaseDatepicker
                         v-model="form.dateFrom.value"
+                        :error="form.dateFrom.error"
                         name="dateFrom"
                         beforeText="c"
                     />
@@ -128,6 +213,7 @@
                     <BaseDatepicker
                         v-model="form.dateTo.value"
                         :minDate="form.dateFrom.value ?? undefined"
+                        :error="form.dateTo.error"
                         name="dateTo"
                         beforeText="по"
                     />
@@ -136,7 +222,15 @@
         </div>
 
         <div class="form__button">
-            <BaseButton> Отправить </BaseButton>
+            <BaseButton @click="onSubmit"> Отправить </BaseButton>
+        </div>
+
+        <div
+            v-if="submitStatus === 'success'"
+            :class="{ form__message_success: submitStatus === 'success' }"
+            class="form__message"
+        >
+            Заявка успешно отправлена
         </div>
     </form>
 </template>
@@ -190,6 +284,16 @@
                 margin-left: auto;
                 margin-right: auto;
             }
+        }
+
+        &__message {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border-radius: 4px;
+            color: #0f5132;
+            background-color: #d1e7dd;
+            border-color: #badbcc;
+            border: 1px solid;
         }
     }
 </style>

@@ -7,6 +7,7 @@
         type?: string;
         label?: string;
         beforeText?: string;
+        error?: string;
     }
 
     const props = withDefaults(defineProps<Props>(), {
@@ -42,39 +43,58 @@
         }"
         class="input-block"
     >
-        <div
-            v-if="props.beforeText"
-            class="input-block__before-text"
-        >
-            {{ props.beforeText }}
+        <div class="input-block__wrapper">
+            <div
+                v-if="props.beforeText"
+                class="input-block__before-text"
+            >
+                {{ props.beforeText }}
+            </div>
+
+            <input
+                ref="inputNode"
+                v-model="value"
+                :name="props.name"
+                :type="props.type"
+                class="input-block__input"
+            />
+
+            <label
+                v-if="props.label"
+                class="input-block__label"
+            >
+                {{ props.label }}
+            </label>
         </div>
 
-        <input
-            ref="inputNode"
-            v-model="value"
-            :name="props.name"
-            :type="props.type"
-            class="input-block__input"
-        />
-
-        <label
-            v-if="props.label"
-            class="input-block__label"
+        <div
+            v-if="props.error"
+            class="input-block__error"
         >
-            {{ props.label }}
-        </label>
+            {{ props.error }}
+        </div>
     </div>
 </template>
 
 <style lang="scss" scoped>
     .input-block {
-        position: relative;
+        &__wrapper {
+            position: relative;
+        }
 
         &_with-before-text {
             .input-block__input {
                 padding-top: 0;
                 text-align: right;
             }
+        }
+
+        &__error {
+            color: lightcoral;
+            line-height: 15px;
+            font-size: 14px;
+            font-weight: 300;
+            margin-top: 4px;
         }
 
         &__before-text {

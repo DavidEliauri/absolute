@@ -6,12 +6,13 @@
         text: string;
     }
 
-    type Props = {
+    interface Props {
         modelValue: string | string[];
         options: Option[];
         multiple?: boolean;
         label?: string;
-    };
+        error?: string;
+    }
 
     const props = defineProps<Props>();
 
@@ -72,62 +73,81 @@
         :class="{ 'select-block_active': selectedOptions.length }"
         class="select-block"
     >
-        <input
-            :value="value"
-            type="hidden"
-        />
+        <div class="select-block__wrapper">
+            <input
+                :value="value"
+                type="hidden"
+            />
 
-        <label
-            v-if="props.label"
-            class="select-block__label"
-        >
-            {{ props.label }}
-        </label>
+            <label
+                v-if="props.label"
+                class="select-block__label"
+            >
+                {{ props.label }}
+            </label>
 
-        <button
-            type="button"
-            @click="showOptions = !showOptions"
-            class="select-block__select"
-        >
-            <span>
-                {{ selectedOptions.map((option) => option.text).join(', ') }}
-            </span>
+            <button
+                type="button"
+                @click="showOptions = !showOptions"
+                class="select-block__select"
+            >
+                <span>
+                    {{ selectedOptions.map((option) => option.text).join(', ') }}
+                </span>
 
-            <svg class="select-block__icon">
-                <use
-                    v-bind="{
-                        'xlink:href': '/sprite.svg#chevrone-down',
-                    }"
-                ></use>
-            </svg>
-        </button>
+                <svg class="select-block__icon">
+                    <use
+                        v-bind="{
+                            'xlink:href': '/sprite.svg#chevrone-down',
+                        }"
+                    ></use>
+                </svg>
+            </button>
+
+            <div
+                v-if="showOptions"
+                class="select-block__options"
+            >
+                <ul class="options">
+                    <li
+                        v-for="option in props.options"
+                        :key="option.id"
+                        class="options__item"
+                    >
+                        <button
+                            type="button"
+                            @click="onOptionClick(option.id)"
+                            class="options__button"
+                        >
+                            {{ option.text }}
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
 
         <div
-            v-if="showOptions"
-            class="select-block__options"
+            v-if="props.error"
+            class="select-block__error"
         >
-            <ul class="options">
-                <li
-                    v-for="option in props.options"
-                    :key="option.id"
-                    class="options__item"
-                >
-                    <button
-                        type="button"
-                        @click="onOptionClick(option.id)"
-                        class="options__button"
-                    >
-                        {{ option.text }}
-                    </button>
-                </li>
-            </ul>
+            {{ props.error }}
         </div>
     </div>
 </template>
 
 <style lang="scss" scoped>
     .select-block {
-        position: relative;
+        &__wrapper {
+            position: relative;
+        }
+
+        &__error {
+            color: lightcoral;
+            line-height: 15px;
+            font-size: 14px;
+            font-weight: 300;
+            margin-top: 4px;
+        }
 
         &__label {
             position: absolute;
